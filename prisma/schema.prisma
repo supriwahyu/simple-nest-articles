@@ -4,12 +4,25 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"
-  output   = "./node_modules/@prisma/client"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "mysql"
+}
+
+model Article {
+  id         Int      @id @default(autoincrement())
+  title      String
+  slug       String   @unique
+  content    String
+  published  Boolean  @default(false)
+
+  authorId   Int
+  author     User @relation(fields: [authorId], references: [id])
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model User {
@@ -19,19 +32,6 @@ model User {
   password String
 
   articles Article[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Article {
-  id Int @id @default(autoincrement())
-  title String
-  content String
-  published Boolean @default(false)
-
-  authorId Int
-  author User @relation(fields: [authorId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

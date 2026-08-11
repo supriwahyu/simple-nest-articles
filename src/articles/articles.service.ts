@@ -6,10 +6,15 @@ import { CreateArticleDto } from './dto/create-article.dto';
 export class ArticlesService {
 	constructor(private prisma: PrismaService) {}
 
-	create(dto: CreateArticleDto) {
-		return this.prisma.article.create({
-			data: dto,
-		});
+	async create(dto: CreateArticleDto, userId: number) {
+	  return this.prisma.article.create({
+	    data: {
+	      title: dto.title,
+	      slug: dto.slug,
+	      content: dto.content,
+	      authorId: userId,
+	    },
+	  });
 	}
 
 	findAll() {
