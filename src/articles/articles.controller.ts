@@ -4,7 +4,8 @@ import {
   Get,
   Post,
   UseGuards,
-  Param
+  Param,
+  Delete
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
@@ -33,6 +34,11 @@ export class ArticlesController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.articlesService.findOne(Number(id));
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.articlesService.remove(Number(id));
   }
 
   @Public()

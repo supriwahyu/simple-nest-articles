@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 
@@ -31,5 +31,18 @@ export class ArticlesService {
 				id: id,
 			}
 		})
+	}
+
+	async remove(id: number) {
+		const article = await this.prisma.article.findUnique({
+			where: { id }
+		});
+
+		if (!article) {
+			throw new NotFoundException('Article not found');
+		}
+		return this.prisma.article.delete({
+			where: { id },
+		});
 	}
 }
