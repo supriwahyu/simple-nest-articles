@@ -11,6 +11,15 @@ async function bootstrap() {
     .setDescription('REST API for managing articles')
     .setVersion('1.0')
     .addTag('Articles')
+    .addBearerAuth(
+      {
+        type: "http",
+        scheme: "bearer",
+        bearerFormat: "JWT",
+        description: "Enter your JWT token"
+      },
+      "access-token"
+    )
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);

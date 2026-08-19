@@ -9,7 +9,11 @@ import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
+@ApiTags('Articles')
+@ApiBearerAuth('access-token')
+@UseGuards(JwtAuthGuard)
 @Controller('articles')
 export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
