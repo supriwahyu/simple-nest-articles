@@ -19,9 +19,18 @@ export class ArticlesService {
 
 	findAll() {
 		return this.prisma.article.findMany({
+			include: {
+				author: {
+					select: {
+						id: true,
+						name: true,
+						email: true,
+					},
+				},
+			},
 			orderBy: {
 				createdAt: 'desc',
-			}
+			},
 		});
 	}
 
@@ -29,8 +38,17 @@ export class ArticlesService {
 		return this.prisma.article.findUnique({
 			where: {
 				id: id,
-			}
-		})
+			},
+			include: {
+				author: {
+					select: {
+						id: true,
+						name: true,
+						email: true,
+					},
+				},
+			},
+		});
 	}
 
 	async remove(id: number) {
